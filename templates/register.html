@@ -1,0 +1,61 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="breadcumb-text">
+                    <h2>Register</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcumb Thumb Area -->
+    <div class="breadcumb-thumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcumb-thumb">
+                        <img src="{{ url_for('static', filename='img/bg-img/breadcumb.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<div class="container" style="margin-top:5%; margin-bottom:10%">
+    
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger">
+                 <p>{{ message }}</p>
+                 </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+              
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+        <div class="form-group">
+            <p>Or sign up with:</p>
+            <a href="{{ url_for('google.login') }}" class="btn btn-google">
+              <i class="fab fa-google"></i> Sign up with Google
+            </a>
+          </div>
+
+        <p>Already Sign up? <a href="{{ url_for('login') }}">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+
+
+{% include "footer.html" %}

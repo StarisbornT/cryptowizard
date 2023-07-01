@@ -1,0 +1,86 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="breadcumb-text">
+                    <h2>Subscribe</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcumb Thumb Area -->
+    <div class="breadcumb-thumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcumb-thumb">
+                        <img src="{{ url_for('static', filename='img/bg-img/breadcumb.png') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<div class="container" style="margin-top:5%; margin-bottom:5%">
+    
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto content">
+        <form action="{{ url_for('create_payment', user_id=user.id) }}" method="POST" id="payment-form">
+            <label for="coin">Select a cryptocurrency:</label>
+            <select name="coin" id="coin" class="form-control">
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="eth">Ethereum (ETH)</option>
+                <option value="trx">Tron</option>
+                <option value="usdt">USDT</option>
+                <!-- Add more cryptocurrency options as needed -->
+            </select>
+            <br><br>
+            
+            <label for="amount">Enter the payment amount:</label>
+            <input type="number" class="form-control" name="amount" id="amount" step="0.01" required>
+            
+            <br><br>
+            <input type="submit" class="btn btn-primary" value="Proceed to Payment">
+        </form>
+        
+        
+</div>
+        
+      </div>
+    </div>
+  </div>
+  
+{% include "footer.html" %}
+<script>
+    // Retrieve the plan information from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const plan = urlParams.get('plan');
+
+    // Define the pricing plans and their corresponding amounts
+    const pricingPlans = {
+        "1week": 9.00,
+        "1month": 36.00,
+        "3month": 108.00,
+        "1year": 387.00
+        // Add more plans as needed
+    };
+
+    // Retrieve the necessary DOM elements
+    const coinSelect = document.getElementById("coin");
+    const amountInput = document.getElementById("amount");
+
+    // Set the selected plan in the coin select element
+    coinSelect.value = plan;
+
+    // Set the amount field with the corresponding amount from the pricing plans
+    amountInput.value = pricingPlans[plan].toFixed(2);
+
+    // Disable the amount field
+    amountInput.disabled = true;
+</script>

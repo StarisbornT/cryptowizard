@@ -1,0 +1,182 @@
+{% include "header.html" %}
+    <!-- ##### Header Area End ##### -->
+
+    <!-- ##### Hero Area Start ##### -->
+    <section class="hero-area">
+        <div class="hero-slides owl-carousel">
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-12 col-md-7">
+                            <div class="hero-slides-content">
+                                <h2 data-animation="fadeInUp" data-delay="100ms">Take a step into the <span>Crypto World</span></h2>
+                                <h6 data-animation="fadeInUp" data-delay="400ms">Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar.</h6>
+                                <a href="#" class="btn cryptos-btn" data-animation="fadeInUp" data-delay="700ms">Read More</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="hero-slides-thumb" data-animation="fadeInUp" data-delay="1000ms">
+                                <img src="{{ url_for('static', filename='img/bg-img/bg-2.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-12 col-md-7">
+                            <div class="hero-slides-content">
+                                <h2 data-animation="fadeInUp" data-delay="100ms">Take a step into the <span>Crypto World</span></h2>
+                                <h6 data-animation="fadeInUp" data-delay="400ms">Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar.</h6>
+                                <a href="#" class="btn cryptos-btn" data-animation="fadeInUp" data-delay="700ms">Read More</a>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <div class="hero-slides-thumb" data-animation="fadeInUp" data-delay="1000ms">
+                                <img src="{{ url_for('static', filename='img/bg-img/bg-2.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Hero Area End ##### -->
+
+    <!-- ##### Course Area Start ##### -->
+    <div class="cryptos-feature-area section-padding-100-0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading text-center mx-auto">
+                        <h3>Let’s change <br><span>the world</span> together</h3>
+                        <p>Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar cursus a eget nisl. Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi.</p>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+                
+                <!-- Single Course Area -->
+                
+
+               
+                </div>
+            </div>
+        </div>
+    <!-- ##### Course Area End ##### -->
+
+    <!-- ##### About Area Start ##### -->
+    <section class="cryptos-about-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-6">
+                    <div class="about-thumbnail mb-100">
+                        <img src="{{ url_for('static', filename='img/bg-img/about.png') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="about-content mb-100">
+                        <div class="section-heading">
+                            <h3>Let’s change <br><span>the world</span> together</h3>
+                            <h5>Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar cursus a eget nisl.</h5>
+                            <p>Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar cursus a eget nisl. Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi.</p>
+                            <a href="#" class="btn cryptos-btn mt-30">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### About Area End ##### -->
+
+    
+
+    <!-- ##### Currency Area Start ##### -->
+    
+            
+    <!-- ##### Currency Area End ##### -->
+
+    <!-- ##### Blog Area Start ##### -->
+    {% if current_user.id == 1 or current_user.admin_rights: %}
+                        <div class="clearfix">
+                        <a class="btn btn-primary align-items-center" href="{{url_for('add_new_post')}}">Create New Post</a>
+                        </div>
+                    {% endif %}
+    <section class="cryptos-blog-area section-padding-100">
+        <div class="container">
+            
+            <div class="row align-items-center">
+                {% for post in all_posts %}
+                <div class="col-12 col-lg-6">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area d-flex align-items-start">
+                        <!-- Thumbnail -->
+                        <div class="blog-thumbnail">
+                            <img src="{{ post.img_url }}" alt="">   
+                        </div>
+                        <!-- Content -->
+                        <div class="blog-content">
+                            <a href="#" class="post-title">{{post.title}}</a>
+                            <div class="meta-data">
+                                <a href="#">Posted by {{post.author.name}}</a> |
+                                <a href="#">{{post.date}}</a>
+                            </div>
+                            <p>{{ post.subtitle }}</p>
+                            {% if current_user.id == 1 or current_user.admin_rights: %}
+                                <a href="{{url_for('delete_post', post_id=post.id) }}">✘</a>
+                            {% endif %}
+                            <form action="{{ url_for('update_clicks') }}" method="POST">
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <button type="submit" class="btn cryptos-btn">Read More</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Single Blog Area -->
+                </div>
+                {% if loop.index is divisibleby 2 %}
+                    </div><div class="row align-items-center">
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+                </div>
+
+                
+        
+        <!-- Newsletter Area -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="newsletter-area mt-100">
+                        <div class="section-heading text-center mx-auto">
+                            <h3>Subscribe to <span>Newsletter</span></h3>
+                            <h6>Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et sollicitudin est, in euismod erat. Ut at erat et arcu pulvinar cursus a eget nisl.</h6>
+                        </div>
+                        <form action="#" method="post">
+                            <input type="email" name="email" placeholder="Subscribe to newsletter">
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Blog Area End ##### -->
+
+    {% include "footer.html" %}
+
+    
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    
+   
+</body>
+
+</html>

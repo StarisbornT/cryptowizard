@@ -1,0 +1,76 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="breadcumb-text">
+                    <h2>{{ post.title }}</h2>
+                    <h3 class="subheading" style="color:white">{{post.subtitle}}</h3>
+                    <span class="meta" style="color:white">Posted by
+                        {{post.author.name}}
+                        on {{post.date}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcumb Thumb Area -->
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### About Area Start ##### -->
+<section class="cryptos-about-area section-padding-100-0">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="about-thumbnail mb-100">
+                    <img src="{{ url_for('static', filename='img/bg-img/about.png') }}" alt="">
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="about-content mb-100">
+                    <div class="section-heading">
+                        {{ post.body|safe }}
+
+                {% if current_user.id == 1 or current_user.admin_rights:%}
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">Edit
+                        Post</a>
+                </div>
+                {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### About Area End ##### -->
+    <div class="container">
+        {{ ckeditor.load() }}
+                {{ ckeditor.config(name='comment_text') }}
+                {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+
+                <div class="col-lg-8 col-md-10 mx-auto comment">
+                    {% for comment in post.comments: %}
+                    <ul class="commentList">
+                        <li>
+                            <div class="commenterImage">
+                                <img src="{{ comment.comment_author.email | gravatar }}"/>
+                            </div>
+                            <div class="commentText">
+                                {{comment.text|safe}}
+                                <span class="date sub-text">{{comment.comment_author.name}}</span>
+                
+                            </div>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+
+    </div>
+                
+
+
+
+ {% include "footer.html" %} 

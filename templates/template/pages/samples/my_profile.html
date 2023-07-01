@@ -1,0 +1,59 @@
+{% include "template/headers.html" %}
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> PROFILE </h3>
+              
+            </div>
+            
+              
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">MY PROFILE</h4>
+                    
+                    <table class="table table-striped">
+                      
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          
+                          <th> Firstname </th>
+                          
+                          <td> {{ user.firstname }} </td>
+        
+                        </tr>
+                        <tr>
+                          
+                          <th> Lastname: </th>
+                          
+                          <td> {{ user.lastname }} </td>
+                        </tr>
+                        <tr>
+                          
+                          <th> Email: </th>
+                          
+                          <td> {{ user.email }} </td>
+                        </tr>
+
+                        <tr>
+                          
+                          <th> Username: </th>
+                          
+                          <td> {{ user.username }} </td>
+                        </tr>
+                        
+                      </tbody>
+                    
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+          {% include "template/footers.html" %}
+  </body>
+</html>

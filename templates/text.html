@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Language Change Example</title>
+</head>
+<body>
+  <h1 id="title">Hello, World!</h1>
+  <p id="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+  <select id="language-select" onchange="changeLanguage()">
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="fr">Français</option>
+  </select>
+
+  <script>
+    function changeLanguage() {
+      var language = document.getElementById("language-select").value;
+      var title = document.getElementById("title");
+      var content = document.getElementById("content");
+
+      switch (language) {
+        case "en":
+          title.textContent = "Hello, World!";
+          content.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+          break;
+        case "es":
+          title.textContent = "¡Hola, mundo!";
+          content.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+          break;
+        case "fr":
+          title.textContent = "Bonjour, le monde!";
+          content.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+          break;
+        default:
+          title.textContent = "Hello, World!";
+          content.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+          break;
+      }
+    }
+  </script>
+</body>
+</html>

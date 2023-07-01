@@ -1,0 +1,147 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area">
+<div class="container h-100">
+<div class="row h-100 align-items-center">
+<div class="col-12 col-md-6">
+<div class="breadcumb-text">
+<h2>Free Signals</h2>
+</div>
+</div>
+</div>
+</div>
+<!-- Breadcumb Thumb Area -->
+<div class="breadcumb-thumb-area">
+<div class="container">
+<div class="row">
+<div class="col-12">
+<div class="breadcumb-thumb">
+<img alt="" src="{{ url_for('static', filename='img/bg-img/breadcumb.png') }}"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% if current_user.id == 1: %}
+<div class="clearfix" style="margin-top: 5%; margin-bottom: 5%;">
+
+    <a class="btn btn-primary align-items-center" href="{{url_for('create_new_signal')}}">Create New Signal</a>
+    </div>
+{% endif %}
+
+    
+    <table id="crypto-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Coin Symbol</th>
+            <th>Stop Loss</th>
+            <th>Entry Point</th>
+            <th>Take Profit</th>
+            <th>Mode</th>
+            <th>Final Result</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for signal in all_free_signal %}
+            <tr>
+                <td>{{ signal.date }}</td>
+                <td>{{ signal.coin_symbol.upper() }}</td>
+                <td id="stop-loss-{{ loop.index }}">{{ signal.stop_loss }}</td>
+                <td id="entry-point{{ loop.index }}">{{ signal.entry_point }}</td>
+                <td id="take-profit-{{ loop.index }}">{{ signal.take_profit }}</td>
+                <td id="move-{{ loop.index }}">-</td>
+                <td id="hit-signal{{ loop.index }}">-</td>
+                {% if current_user.id == 1 or current_user.admin_rights: %}
+                <td>
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="{{url_for('edit_signal', signal_id=signal.id)}}"><i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                </div>
+                </td>
+                <td>
+                    <a class="btn btn-danger float-right" href="{{ url_for('delete_signal', signal_id=signal.id) }}">✘</a>
+                </td>
+                {% endif %}
+              </tr>
+
+          {% endfor %} 
+        </tbody>
+      </table>
+
+
+
+{% include "footer.html" %}
+
+<script>
+  // Function to update the move for each signal
+  function updateMoves() {
+    {% for signal in all_free_signal %}
+      var coinSymbol = "{{ signal.coin_symbol }}";
+      var url = `/get_price/${coinSymbol}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to retrieve price');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if ('price' in data) {
+            var price = data.price;
+            var stopLoss = parseFloat("{{ signal.stop_loss }}");
+            var takeProfit = parseFloat("{{ signal.take_profit }}");
+            var entryPoint = parseFloat("{{ signal.entry_point }}");
+            var mode = document.getElementById("move-{{ loop.index }}");
+            var activeTrade = 'Active Trade';
+            var inactiveTrade = 'Inactive Trade';
+            var completedTrade = 'Completed';
+            var isCompleted = mode.textContent === completedTrade;
+
+            if (!isCompleted || mode.textContent !== activeTrade) {
+              if (entryPoint >= price) {
+                mode.textContent = activeTrade;
+                return
+              } else if (price >= takeProfit) {
+                mode.textContent = completedTrade;
+                mode.style.color = 'green'
+                document.getElementById("take-profit-{{ loop.index }}").style.color = 'green';
+                document.getElementById("hit-signal{{ loop.index }}").textContent = 'Hit Take Profit';
+                document.getElementById("hit-signal{{ loop.index }}").style.color = 'green';
+                return
+              } else if (price <= stopLoss) {
+                mode.textContent = completedTrade;
+                mode.style.color = "red"
+                document.getElementById("stop-loss-{{ loop.index }}").style.color = 'red';
+                document.getElementById("hit-signal{{ loop.index }}").textContent = 'Hit Stop Loss';
+                document.getElementById("hit-signal{{ loop.index }}").style.color = 'red';
+                return
+              }  else {
+                mode.textContent = inactiveTrade;
+                 document.getElementById("take-profit-{{ loop.index }}").style.color = 'black';
+                 document.getElementById("stop-loss-{{ loop.index }}").style.color = 'black';
+                 document.getElementById("hit-signal{{ loop.index }}").textContent = '-';
+              }
+            }
+          } else {
+            throw new Error('Symbol not found');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Handle the error here, e.g., display an error message
+        });
+    {% endfor %}
+  }
+
+  // Call the updateMoves function initially
+  updateMoves();
+
+  // Update the moves every 10 seconds (adjust as needed)
+  setInterval(updateMoves, 1000);
+</script>

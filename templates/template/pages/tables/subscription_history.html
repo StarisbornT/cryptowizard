@@ -1,0 +1,146 @@
+{% include "template/headers.html" %}
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Transaction History </h3>
+              
+            </div>
+            
+              
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title"> Deposits History</h4>
+                    
+                    <table class="table table-striped">
+                      <thead>
+                        <th>Date</th>
+                        <th>Payment ID</th>
+                        <th>Amount</th>
+                        <th>Payment Status</th>
+                      </thead>
+                      
+
+                      <tbody>
+                        {% for payment in payments %}
+                          
+                        
+                        <tr>
+                          
+                          <td> {{ payment.transaction_date }}  </td>
+                          
+                          <td> {{ payment.payment_id }} </td>
+                          <td>{{ payment.deposited_amount }}</td>
+
+                          <td>{{ payment.payment_status }}</td>
+        
+                        </tr>
+                        
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Subscription History</h4>
+                    
+                    <table class="table table-striped">
+                      <thead>
+                        <th>Date</th>
+                        <th>Plan</th>
+                        <th>Amount</th>
+                        <th>Duration</th>
+                      </thead>
+                      
+                      <tbody>
+                        {% for subscribe in subscribes %}
+                                                  
+                        <tr>
+                         <td> {{ subscribe.transactional_date }}  </td>
+                          <td> {{ subscribe.subscription_plan }} </td>
+                          <td>{{ subscribe.subscription_cost }}</td>    
+                          <td>{{ subscribe.subscription_duration }}</td>    
+                        </tr>
+                        
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% if current_user.id == 1: %}
+
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">All Deposits</h4>
+                    
+                    <table class="table table-striped">
+                      <thead>
+                        <th>Date</th>
+                        <th>Payment ID</th>
+                        <th>Amount</th>
+                        <th>Payment Status</th>
+                        <th>Sender ID</th>
+                      </thead>
+                      
+                      <tbody>
+                        {% for payment in all_payments %}
+                                                  
+                        <tr>
+                          <td> {{ payment.transaction_date }}  </td>
+                          <td> {{ payment.payment_id }} </td>
+                          <td>{{ payment.deposited_amount }}</td>
+                          <td>{{ payment.payment_status }}</td>
+                          <td>{{ payment.sender_id }}</td>
+                        </tr>
+                        
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">All Subscription</h4>
+                    
+                    <table class="table table-striped">
+                      <thead>
+                        <th>Date</th>
+                        <th>Plan</th>
+                        <th>Amount</th>
+                        <th>Duration</th>
+                        <th>Sender ID</th>
+                      </thead>
+                      
+                      <tbody>
+                        {% for subscribe in all_subs %}
+                                                  
+                        <tr>
+                         <td> {{ subscribe.transactional_date }}  </td>
+                          <td> {{ subscribe.subscription_plan }} </td>
+                          <td>{{ subscribe.subscription_cost }}</td>    
+                          <td>{{ subscribe.subscription_duration }}</td>
+                          <td>{{ subscribe.sub_sender_id }}</td>
+
+                        </tr>
+                        
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              
+              
+              
+          {% include "template/footers.html" %}

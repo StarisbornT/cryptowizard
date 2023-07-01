@@ -1,0 +1,62 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area">
+<div class="container h-100">
+<div class="row h-100 align-items-center">
+<div class="col-12 col-md-6">
+<div class="breadcumb-text">
+<h2>Price Ranking</h2>
+</div>
+</div>
+</div>
+</div>
+<!-- Breadcumb Thumb Area -->
+<div class="breadcumb-thumb-area">
+<div class="container">
+<div class="row">
+<div class="col-12">
+<div class="breadcumb-thumb">
+<img alt="" src="{{ url_for('static', filename='img/bg-img/breadcumb.png') }}"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<table id="crypto-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price</th>
+        <th style="width: 60px">1h %</th>
+        <th>24h %</th>
+        <th style="width: 60px">7d %</th>
+        <th>Market Cap</th>
+        <th>Volume(24h)</th>
+        <th>Circulating Supply</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crypto in crypto_prices %}
+      <tr>
+        <td>{{ crypto.Name }}</td>
+        <td>{{ crypto.Symbol }}
+        <td>{{ crypto.Price }}</td>
+        <td>{{ crypto['1h %'] }}</td>
+        <td>{{ crypto['24h %'] }}</td>
+        <td>{{ crypto['7d %'] }}</td>
+        <td>{{ crypto['Market Cap'] }}</td>
+        <td>{{ crypto['Volume(24h)'] }}</td>
+        <td>{{ crypto['Circulating Supply'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<!-- FOOTER -->
+<footer></footer>
+{% include "footer.html" %}
+
