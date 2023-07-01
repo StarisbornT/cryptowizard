@@ -28,7 +28,6 @@ import hmac
 from datetime import datetime, timedelta
 from pycoin import key
 import eth_utils
-import base58
 from urllib.parse import urlsplit, urlunsplit
 from flask_dance.contrib.google import make_google_blueprint, google
 from werkzeug.utils import secure_filename
