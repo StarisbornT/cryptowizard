@@ -45,6 +45,8 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 #reCaptcha 
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LfM_Z0mAAAAAJKd74mklX60n8lfW4V4Bh3YkfYq'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LfM_Z0mAAAAALgUv1M87Ea6A1jaCCmmBr_WL6zk'
+with app.app_context():
+        init_db()
 google_bp = make_google_blueprint(
     client_id="625561773264-fphgi6kk497dk7jm6bf8638cm80m38n6.apps.googleusercontent.com",
     client_secret="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",
