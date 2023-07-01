@@ -1034,7 +1034,8 @@ def delete_vip_signal(signal_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    with app.app_context():
+        app.run(debug=True)
 
 while True:
     time.sleep(5)
