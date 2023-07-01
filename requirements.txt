@@ -8,7 +8,7 @@ dominate==2.8.0
 eth-hash==0.5.2
 eth-typing==3.4.0
 eth-utils==2.1.1
-Flask==2.3.2
+Flask==2.2.5
 Flask-Bootstrap==3.3.7.1
 Flask-CKEditor==0.4.6
 Flask-Cors==4.0.0
