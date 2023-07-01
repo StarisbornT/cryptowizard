@@ -33,6 +33,7 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'localhost:5000'
 app.config['APPLICATION_ROOT'] = '/'
 app.config['PREFERRED_URL_SCHEME'] = 'https'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
