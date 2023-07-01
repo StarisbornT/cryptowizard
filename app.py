@@ -153,8 +153,7 @@ class Payment(db.Model):
 
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sender_user = relationship("User", back_populates="payments")
-with app.app_context():
-    db.create_all()
+
 
 # Define the Subscribe model
 class Subscribe(db.Model):
@@ -173,7 +172,8 @@ class Admin(db.Model):
     __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    
+with app.app_context():
+    db.create_all()
 
 
 def admin_only(f):
