@@ -23,7 +23,6 @@ import json
 from flask_mail import Message, Mail
 from itsdangerous import URLSafeTimedSerializer
 import random
-from binance.client import Client
 import hashlib
 import hmac
 from datetime import datetime, timedelta
@@ -60,10 +59,6 @@ app.register_blueprint(google_bp, url_prefix="/login")
 mail = Mail(app)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 CORS(app,  origins=['https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'], headers=['Content-Type'])
-
-api_key = 'rFSvLL1xr7PWB3HlpGSa9M33cS7jSojq7zZneO4GMzGMlTzVlUSZWPagI5qCElzS'
-api_secret = 'QYiAZwyuSKZ8f9dfwQRq5MdN0Qi21hHVUZgJoOTP7AoWqX4DxqSr0VMn2YVqNtlq'
-client = Client(api_key, api_secret)
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
