@@ -28,14 +28,12 @@ import hmac
 from datetime import datetime, timedelta
 from pycoin import key
 import eth_utils
+import base58
 from urllib.parse import urlsplit, urlunsplit
 from flask_dance.contrib.google import make_google_blueprint, google
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['SERVER_NAME'] = 'localhost:5000'
-app.config['APPLICATION_ROOT'] = '/'
-app.config['PREFERRED_URL_SCHEME'] = 'https'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -48,7 +46,6 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 #reCaptcha 
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LfM_Z0mAAAAAJKd74mklX60n8lfW4V4Bh3YkfYq'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LfM_Z0mAAAAALgUv1M87Ea6A1jaCCmmBr_WL6zk'
-app.app_context().push()
 google_bp = make_google_blueprint(
     client_id="625561773264-fphgi6kk497dk7jm6bf8638cm80m38n6.apps.googleusercontent.com",
     client_secret="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",
@@ -62,6 +59,10 @@ app.register_blueprint(google_bp, url_prefix="/login")
 mail = Mail(app)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 CORS(app,  origins=['https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'], headers=['Content-Type'])
+
+# api_key = 'rFSvLL1xr7PWB3HlpGSa9M33cS7jSojq7zZneO4GMzGMlTzVlUSZWPagI5qCElzS'
+# api_secret = 'QYiAZwyuSKZ8f9dfwQRq5MdN0Qi21hHVUZgJoOTP7AoWqX4DxqSr0VMn2YVqNtlq'
+# client = Client(api_key, api_secret)
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
@@ -101,6 +102,9 @@ class User(UserMixin, db.Model):
     payments = relationship("Payment", back_populates="sender_user")
     payment = db.relationship("Payment", backref="user", uselist=False)
 
+with app.app_context():
+    db.create_all()
+
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
     id = db.Column(db.Integer, primary_key=True)
@@ -116,6 +120,9 @@ class BlogPost(db.Model):
 
     comments = relationship("Comment", back_populates="parent_post")
 
+with app.app_context():
+    db.create_all()
+
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -127,6 +134,8 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
+with app.app_context():
+    db.create_all()
 
 class FreeSignal(db.Model):
     __tablename__ = "freesignal"
@@ -136,6 +145,8 @@ class FreeSignal(db.Model):
     take_profit = db.Column(db.Integer)
     coin_symbol = db.Column(db.String(100))
     date = db.Column(db.String(250), nullable=False)
+with app.app_context():
+    db.create_all()
 
 class VipSignal(db.Model):
      __tablename__ = "vipsignal"
@@ -145,6 +156,8 @@ class VipSignal(db.Model):
      take_profit = db.Column(db.Integer)
      coin_symbol = db.Column(db.String(100))
      date = db.Column(db.String(250), nullable=False)
+with app.app_context():
+    db.create_all()
 
 class Payment(db.Model):
     __tablename__ = 'payment'
@@ -157,7 +170,8 @@ class Payment(db.Model):
 
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sender_user = relationship("User", back_populates="payments")
-
+with app.app_context():
+    db.create_all()
 
 # Define the Subscribe model
 class Subscribe(db.Model):
@@ -170,13 +184,16 @@ class Subscribe(db.Model):
     sub_sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sub_sender_user = relationship("User", back_populates="subscriber") 
     transactional_date = db.Column(db.String(250), nullable=False)
-   
+with app.app_context():
+    db.create_all()   
 
 class Admin(db.Model):
     __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-
+    
+with app.app_context():
+    db.create_all()
 
 
 def admin_only(f):
@@ -1038,8 +1055,7 @@ def delete_vip_signal(signal_id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        app.run(debug=True)
+    app.run(debug=True)
 
 while True:
     time.sleep(5)
