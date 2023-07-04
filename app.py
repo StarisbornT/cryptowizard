@@ -101,7 +101,6 @@ class User(UserMixin, db.Model):
     comments = relationship("Comment", back_populates="comment_author")
     payments = relationship("Payment", back_populates="sender_user")
     payment = db.relationship("Payment", backref="user", uselist=False)
-
 with app.app_context():
     db.create_all()
 
