@@ -184,7 +184,7 @@ class Subscribe(db.Model):
     sub_sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sub_sender_user = relationship("User", back_populates="subscriber") 
     transactional_date = db.Column(db.String(250), nullable=False)
- with app.app_context():
+with app.app_context():
     db.create_all() 
 
 class Admin(db.Model):
