@@ -133,8 +133,7 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
-with app.app_context():
-    db.create_all()
+
 
 class FreeSignal(db.Model):
     __tablename__ = "freesignal"
@@ -144,8 +143,7 @@ class FreeSignal(db.Model):
     take_profit = db.Column(db.Integer)
     coin_symbol = db.Column(db.String(100))
     date = db.Column(db.String(250), nullable=False)
-with app.app_context():
-    db.create_all()
+
 
 class VipSignal(db.Model):
      __tablename__ = "vipsignal"
@@ -155,8 +153,7 @@ class VipSignal(db.Model):
      take_profit = db.Column(db.Integer)
      coin_symbol = db.Column(db.String(100))
      date = db.Column(db.String(250), nullable=False)
-with app.app_context():
-    db.create_all()
+
 
 class Payment(db.Model):
     __tablename__ = 'payment'
@@ -169,8 +166,7 @@ class Payment(db.Model):
 
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sender_user = relationship("User", back_populates="payments")
-with app.app_context():
-    db.create_all()
+
 
 # Define the Subscribe model
 class Subscribe(db.Model):
@@ -183,16 +179,13 @@ class Subscribe(db.Model):
     sub_sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sub_sender_user = relationship("User", back_populates="subscriber") 
     transactional_date = db.Column(db.String(250), nullable=False)
-with app.app_context():
-    db.create_all()   
+  
 
 class Admin(db.Model):
     __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     
-with app.app_context():
-    db.create_all()
 
 
 def admin_only(f):
@@ -1054,8 +1047,8 @@ def delete_vip_signal(signal_id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        app.run(debug=True)
+    db.create_all() 
+    app.run(debug=True)
     
 
 while True:
