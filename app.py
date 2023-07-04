@@ -73,6 +73,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///blog.db"
 #postgres://blog:28TUl9nXzhdxkwWec7vJqS4lXrjmG9u8@dpg-chf0keu4dad1jq99ae80-a.oregon-postgres.render.com/blog_1ld7
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+app.app_context().push()
 
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': 'aa05b939-ce70-4636-bc5b-5d81c9d9c300'}
@@ -133,7 +134,8 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
     parent_post = relationship("BlogPost", back_populates="comments")
     text = db.Column(db.Text, nullable=False)
-
+with app.app_context():
+    db.create_all()
 
 class FreeSignal(db.Model):
     __tablename__ = "freesignal"
@@ -143,7 +145,8 @@ class FreeSignal(db.Model):
     take_profit = db.Column(db.Integer)
     coin_symbol = db.Column(db.String(100))
     date = db.Column(db.String(250), nullable=False)
-
+with app.app_context():
+    db.create_all()
 
 class VipSignal(db.Model):
      __tablename__ = "vipsignal"
@@ -153,7 +156,8 @@ class VipSignal(db.Model):
      take_profit = db.Column(db.Integer)
      coin_symbol = db.Column(db.String(100))
      date = db.Column(db.String(250), nullable=False)
-
+with app.app_context():
+    db.create_all()
 
 class Payment(db.Model):
     __tablename__ = 'payment'
@@ -166,7 +170,8 @@ class Payment(db.Model):
 
     sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sender_user = relationship("User", back_populates="payments")
-
+with app.app_context():
+    db.create_all()
 
 # Define the Subscribe model
 class Subscribe(db.Model):
@@ -179,7 +184,8 @@ class Subscribe(db.Model):
     sub_sender_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     sub_sender_user = relationship("User", back_populates="subscriber") 
     transactional_date = db.Column(db.String(250), nullable=False)
-  
+ with app.app_context():
+    db.create_all() 
 
 class Admin(db.Model):
     __tablename__ = "admin"
