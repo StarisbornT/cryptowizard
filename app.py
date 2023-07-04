@@ -72,7 +72,7 @@ gravatar = Gravatar(app, size=100, rating="g", default="retro", force_default=Fa
 app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///blog.db"
 #postgres://blog:28TUl9nXzhdxkwWec7vJqS4lXrjmG9u8@dpg-chf0keu4dad1jq99ae80-a.oregon-postgres.render.com/blog_1ld7
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SERVER_NAME'] = 'localhost:5000'
+app.config['SERVER_NAME'] = 'https://cryptowizard101.onrender.com'
 db = SQLAlchemy(app)
 app.app_context().push()
 
