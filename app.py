@@ -185,8 +185,8 @@ class Admin(db.Model):
     __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    
-
+with app.app_context():
+    db.create_all()
 
 def admin_only(f):
     @wraps(f)
@@ -1047,9 +1047,8 @@ def delete_vip_signal(signal_id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all() 
-    app.run(debug=True)
+    with app.app_context(): 
+        app.run(debug=True)
     
 
 while True:
